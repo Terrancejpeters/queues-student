@@ -16,8 +16,9 @@ public class Queue<T> implements UnboundedQueueInterface<T> {
 
 	public Queue(Queue<T> other) {
 		size = 0;
-		head = other.head;
-
+		for (int i = 0; i < other.size(); i++) {
+			enqueue(other.get(i));
+		}
 	}
 
 	@Override

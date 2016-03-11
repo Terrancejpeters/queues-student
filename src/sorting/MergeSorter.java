@@ -37,10 +37,19 @@ public class MergeSorter<T extends Comparable<T>> {
 	 */
 	public Queue<T> mergeSort(Queue<T> queue) {
 		// TODO 1
-		Queue<T> split1 = new Queue<T>();
-		Queue<T> split2 = new Queue<T>();
-		divide(queue,split1,split2);
-		return merge(split1,split2);
+		if (queue.size() <= 1){
+			return queue;
+		}
+		else{
+			Queue<T> split1 = new Queue<T>();
+			Queue<T> split2 = new Queue<T>();
+			divide(queue,split1,split2);
+			mergeSort(split1);
+			mergeSort(split2);
+			return merge(split1,split2);
+		}
+		
+
 		
 	}
 
@@ -109,6 +118,7 @@ public class MergeSorter<T extends Comparable<T>> {
 	 */
 	void mergeHelper(Queue<T> input1, Queue<T> input2, Queue<T> output) {
 		if (input1.isEmpty() && input2.isEmpty()){
+			
 		}
 		else{
 			if (input1.isEmpty()){
@@ -120,7 +130,7 @@ public class MergeSorter<T extends Comparable<T>> {
 			else{
 				T elem1 = input1.dequeue();
 				T elem2 = input2.dequeue();
-				if (elem1.compareTo(elem2) >= 0){
+				if (elem1.compareTo(elem2) <= 0){
 					output.enqueue(elem1);
 					output.enqueue(elem2);
 				}
