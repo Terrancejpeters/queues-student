@@ -59,7 +59,15 @@ public class MergeSorter<T extends Comparable<T>> {
 	 * @param output2 a queue into which the other half of the elements in input should go
 	 */
 	void divide(Queue<T> input, Queue<T> output1, Queue<T> output2) {
-		// TODO 2
+		int tempSize = input.size();
+		for (int i = 0; i < tempSize/2; i++){
+			output1.enqueue(input.dequeue());
+		}
+
+		while (!input.isEmpty()){
+			output2.enqueue(input.dequeue());	
+		}
+		
 	}
 	
 	/**
@@ -73,9 +81,10 @@ public class MergeSorter<T extends Comparable<T>> {
 	 * @return a sorted queue consisting of all elements from input1 and input2
 	 */
 	Queue<T> merge(Queue<T> input1, Queue<T> input2) {
-		// TODO 3
+		Queue<T> output = new Queue<T>();
+		
 		return null;
-	}
+		}
 	
 	/**
 	 * Merges the sorted input queues into the output queue in sorted order.
@@ -95,6 +104,29 @@ public class MergeSorter<T extends Comparable<T>> {
 	 * @param output a sorted queue containing the accumulated progress so far
 	 */
 	void mergeHelper(Queue<T> input1, Queue<T> input2, Queue<T> output) {
-		// TODO 4
+		if (input1.isEmpty() && input2.isEmpty()){
+			
+		}
+		else{
+			if (input1.isEmpty()){
+				output.enqueue(input2.dequeue());
+			}
+			else if (input2.isEmpty()){
+				output.enqueue(input1.dequeue());
+			}
+			else{
+				T elem1 = input1.dequeue();
+				T elem2 = input2.dequeue();
+				if (elem1.compareTo(elem2) >= 0){
+					output.enqueue(elem1);
+					output.enqueue(elem2);
+				}
+				else{
+					output.enqueue(elem2);
+					output.enqueue(elem1);
+				}
+			}
+			mergeHelper(input1,input2,output);
+		}
 	}
 }

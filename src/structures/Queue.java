@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 public class Queue<T> implements UnboundedQueueInterface<T> {
 
 	private int size;
-	private Node<T> head;
+	protected Node<T> head;
 	private Node<T> last;
 
 	public Queue() {
@@ -16,9 +16,7 @@ public class Queue<T> implements UnboundedQueueInterface<T> {
 
 	public Queue(Queue<T> other) {
 		size = 0;
-		for (int i = 0; i < other.size(); i++) {
-			enqueue(other.get(i));
-		}
+		head = other.head;
 
 	}
 

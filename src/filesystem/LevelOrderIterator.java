@@ -3,8 +3,6 @@ package filesystem;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
-
-import structures.Node;
 import structures.Queue;
 
 
@@ -36,7 +34,7 @@ public class LevelOrderIterator extends FileIterator<File> {
 
 	@Override
 	public boolean hasNext() {
-		if (toIter.size() > 0) {
+		if (!toIter.isEmpty()) {
 			return true;
 		}
 		return false;
