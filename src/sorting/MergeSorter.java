@@ -37,20 +37,22 @@ public class MergeSorter<T extends Comparable<T>> {
 	 */
 	public Queue<T> mergeSort(Queue<T> queue) {
 		// TODO 1
-		if (queue.size() <= 1){
-			return queue;
-		}
-		else{
-			Queue<T> split1 = new Queue<T>();
-			Queue<T> split2 = new Queue<T>();
-			divide(queue,split1,split2);
-			mergeSort(split1);
-			mergeSort(split2);
+		Queue<T> copy = new Queue<T> (queue);
+		Queue<T> split1 = new Queue<T>();
+		Queue<T> split2 = new Queue<T>();
+		if (copy.size() == 0){
 			return merge(split1,split2);
 		}
-		
+		else if (copy.size() == 1){
+			return copy;
+		}
+		else{
 
-		
+			divide(copy,split1,split2);
+			return merge(mergeSort(split1),mergeSort(split2));
+		}
+
+
 	}
 
 	/**
@@ -72,17 +74,19 @@ public class MergeSorter<T extends Comparable<T>> {
 	 * @param output2 a queue into which the other half of the elements in input should go
 	 */
 	void divide(Queue<T> input, Queue<T> output1, Queue<T> output2) {
-		int tempSize = input.size();
-		for (int i = 0; i < tempSize/2; i++){
+		if (output1.size() < input.size()){
 			output1.enqueue(input.dequeue());
+			divide(input,output1,output2);
+		}
+		else if (!input.isEmpty()){
+			output2.enqueue(input.dequeue());
+			divide(input,output1,output2);
+		}
+		else{
 		}
 
-		while (!input.isEmpty()){
-			output2.enqueue(input.dequeue());	
-		}
-		
 	}
-	
+
 	/**
 	 * Merges sorted input queues into an output queue in sorted order,
 	 * and returns that queue. 
@@ -97,8 +101,8 @@ public class MergeSorter<T extends Comparable<T>> {
 		Queue<T> output = new Queue<T>();
 		mergeHelper(input1,input2,output);
 		return output;
-		}
-	
+	}
+
 	/**
 	 * Merges the sorted input queues into the output queue in sorted order.
 	 * 
@@ -118,11 +122,11 @@ public class MergeSorter<T extends Comparable<T>> {
 	 */
 	void mergeHelper(Queue<T> input1, Queue<T> input2, Queue<T> output) {
 		if (input1.isEmpty() && input2.isEmpty()){
-			
 		}
 		else{
 			if (input1.isEmpty()){
 				output.enqueue(input2.dequeue());
+				
 			}
 			else if (input2.isEmpty()){
 				output.enqueue(input1.dequeue());

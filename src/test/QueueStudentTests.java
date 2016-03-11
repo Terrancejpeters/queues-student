@@ -39,4 +39,13 @@ public class QueueStudentTests {
 		assertEquals(3, (int)r.dequeue());
 		assertEquals(2,(int)r.dequeue());
 	}
+	
+	@Test
+	public void testConstructorEmptyUnaliased() throws Exception {
+		Queue<Integer> temp = new Queue<Integer>();
+		Queue<Integer> result = new Queue<Integer>(temp);
+		assertTrue(result.isEmpty());
+		temp.enqueue(1);
+		assertTrue(result.isEmpty());
+	}
 }
