@@ -5,34 +5,38 @@ import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 
 import structures.Node;
+import structures.Queue;
+
+
 
 /**
- * An iterator to perform a level order traversal of part of a 
- * filesystem. A level-order traversal is equivalent to a breadth-
- * first search.
+ * An iterator to perform a level order traversal of part of a filesystem. A
+ * level-order traversal is equivalent to a breadth- first search.
  * 
  * @author liberato
  *
  */
-public class LevelOrderIterator extends FileIterator<File> {	
+public class LevelOrderIterator extends FileIterator<File> {
 	/**
 	 * Instantiate a new LevelOrderIterator, rooted at the rootNode.
+	 * 
 	 * @param rootNode
-	 * @throws FileNotFoundException if the rootNode does not exist
+	 * @throws FileNotFoundException
+	 *             if the rootNode does not exist
 	 */
-	private Node<File> root;
+	private Queue<File> toIter = new Queue<File>();
+
 	public LevelOrderIterator(File rootNode) throws FileNotFoundException {
-		if (rootNode == null){
+		if (!rootNode.exists()) {
 			throw new FileNotFoundException("File does not exist");
-		}
-		else{
-			root = new Node<File>(rootNode, null);
+		} else {
+			toIter.enqueue(rootNode);
 		}
 	}
-	
+
 	@Override
 	public boolean hasNext() {
-		if (root.getNext() != null){
+		if (toIter.size() > 0) {
 			return true;
 		}
 		return false;
@@ -40,20 +44,24 @@ public class LevelOrderIterator extends FileIterator<File> {
 
 	@Override
 	public File next() throws NoSuchElementException {
-		if (root == null){
+		if (!hasNext()) {
 			throw new NoSuchElementException("No files to iterate through");
-		}
-		else{
-			File temp = root.getData();
-			root = root.getNext();
-			return temp;
+		} else {
+			if (toIter.get(0).isDirectory()){
+				File[] temp = toIter.peek().listFiles();
+				for (int i = 0; i < temp.length; i++){
+					toIter.enqueue(temp[i]);
+				}
+			}
+			
+			return toIter.dequeue();
 		}
 	}
 
 	@Override
 	public void remove() {
 		// Leave this one alone.
-		throw new UnsupportedOperationException();		
+		throw new UnsupportedOperationException();
 	}
 
 }
