@@ -126,21 +126,18 @@ public class MergeSorter<T extends Comparable<T>> {
 		else{
 			if (input1.isEmpty()){
 				output.enqueue(input2.dequeue());
-				
 			}
 			else if (input2.isEmpty()){
 				output.enqueue(input1.dequeue());
 			}
 			else{
-				T elem1 = input1.dequeue();
-				T elem2 = input2.dequeue();
+				T elem1 = input1.peek();
+				T elem2 = input2.peek();
 				if (elem1.compareTo(elem2) <= 0){
-					output.enqueue(elem1);
-					output.enqueue(elem2);
+					output.enqueue(input1.dequeue());
 				}
 				else{
-					output.enqueue(elem2);
-					output.enqueue(elem1);
+					output.enqueue(input2.dequeue());
 				}
 			}
 			mergeHelper(input1,input2,output);
